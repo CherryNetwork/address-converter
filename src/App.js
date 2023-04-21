@@ -1,18 +1,33 @@
 import { useState } from 'react';
-
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
+import logo from './assets/logo512.png';
+import {
+  Button,
+  TextField,
+  Typography,
+  Select,
+  MenuItem,
+} from '@material-ui/core';
 import {
   convertH160ToSs58,
   convertSs58ToH160,
   ADDRESS_FORMAT,
   encodePubKey,
   CHAIN_PREFIX,
-  encodePolkadotAddress,
   validateSs58,
   getPubKey,
 } from './utils';
 
 import './App.css';
 
+// Or Create your Own theme:
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#E33E7F',
+    },
+  },
+});
 function App() {
   const [inputAddrFormat, setInputAddrFormat] = useState(ADDRESS_FORMAT.ss58);
   const [inputAddress, setInputAddress] = useState('');
@@ -82,37 +97,96 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <label className='form-label'>Input address format: </label>
-          <select value={inputAddrFormat} onChange={handleInputFormatChange}>
-            <option value={ADDRESS_FORMAT.ss58}>SS58 (Substrate)</option>
-            <option value={ADDRESS_FORMAT.h160}>H160 (Etheruem)</option>
-            <option value={ADDRESS_FORMAT.pubKey}>Public Key (Global)</option>
-          </select>
-        </div>
+    <MuiThemeProvider theme={theme}>
+      <div className='App'>
+        <img
+          src={logo}
+          alt='Cherry Network Logo'
+          style={{ height: '80px', width: '80px' }}
+        />
+        <form onSubmit={handleSubmit}>
+          <div className='form-group'>
+            <Typography
+              variant='p'
+              component='p'
+              style={{
+                color: '#282928',
+                fontWeight: 'bold',
+              }}
+            >
+              Input address format:
+            </Typography>
+            <Select
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              value={inputAddrFormat}
+              onChange={handleInputFormatChange}
+            >
+              <MenuItem value={ADDRESS_FORMAT.ss58}>SS58 (Substrate)</MenuItem>
+              <MenuItem value={ADDRESS_FORMAT.h160}>H160 (Etheruem)</MenuItem>
+              <MenuItem value={ADDRESS_FORMAT.pubKey}>
+                Public Key (Global)
+              </MenuItem>
+            </Select>
+          </div>
 
-        <div className='form-group'>
-          <label className='form-label'>Address: </label>
-          <input
+          <div className='form-group'>
+            {/* <label className='form-label'>Address: </label> */}
+            {/* <input
             type='text'
             value={inputAddress}
             onChange={handleInputAddrChange}
-          />
-        </div>
+          /> */}
+            <Typography
+              variant='p'
+              component='p'
+              style={{
+                color: '#282928',
+                fontWeight: 'bold',
+              }}
+            >
+              Enter Address
+            </Typography>
+            <TextField
+              id='outlined-basic'
+              label='Enter address'
+              variant='outlined'
+              value={inputAddress}
+              onChange={handleInputAddrChange}
+              style={{
+                marginLeft: '4px',
+                height: '18px',
+              }}
+            />
+          </div>
 
-        <div className='form-group'>
-          <button type='submit'>Go!</button>
-        </div>
+          <div
+            className='form-group'
+            style={{
+              marginTop: '50px',
+            }}
+          >
+            {/* <button type='submit'>Go!</button> */}
+            <Button
+              color='success'
+              type='submit'
+              variant='outlined'
+              style={{
+                fontWeight: 'bold',
+              }}
+            >
+              Go!
+            </Button>
+          </div>
 
-        <div className='error'>{error}</div>
-      </form>
-      <div
-        className='output-address'
-        dangerouslySetInnerHTML={{ __html: outputAddress }}
-      />
-    </div>
+          <div className='error'>{error}</div>
+        </form>
+        <div
+          className='output-address'
+          dangerouslySetInnerHTML={{ __html: outputAddress }}
+        />
+      </div>
+    </MuiThemeProvider>
   );
 }
 
