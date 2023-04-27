@@ -123,7 +123,7 @@ function App() {
               onChange={handleInputFormatChange}
             >
               <MenuItem value={ADDRESS_FORMAT.ss58}>SS58 (Substrate)</MenuItem>
-              <MenuItem value={ADDRESS_FORMAT.h160}>H160 (Etheruem)</MenuItem>
+              <MenuItem value={ADDRESS_FORMAT.h160}>H160 (Ethereum)</MenuItem>
               <MenuItem value={ADDRESS_FORMAT.pubKey}>
                 Public Key (Global)
               </MenuItem>
